@@ -1,0 +1,15 @@
+    db = sl3.connect("WarnBot.db")
+    c = db.cursor()
+
+    c.execute(f"""
+    SELECT * FROM warn_users WHERE nickname = '{nickname}' AND warn_reason = '{reason}'
+    """)
+    if c.fetchone() is None:
+        c.execute(f"INSERT INTO warn_users (nickname, warn_reason) VALUES ('{nickname}', '{reason}')")
+    else:
+        c.execute("""SELECT * FROM warn_users""")
+        countWarns = c.fetchone()[1] + 1
+        c.execute(f"UPDATE warn_users SET count_warns = {countWarns} WHERE nickname = '{nickname}' AND warn_reason = '{reason}'")
+
+    db.commit()
+    db.close()
