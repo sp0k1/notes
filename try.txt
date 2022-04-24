@@ -1,0 +1,13 @@
+with sl3.connect("WarnBot.db") as db:
+    c = db.cursor()
+
+    create_table = """
+    CREATE TABLE IF NOT EXISTS warn_users(
+        nickname VARCHAR(30),
+        count_warns INT DEFAULT 1,
+        warn_reason VARCHAR(156),
+        date_time DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    """
+
+    c.executescript(create_table)
